@@ -1,0 +1,86 @@
+{% extends 'base.html' %}
+ {% load static %}
+{% block metadescription %}
+    {% if category %}
+        {{ category.description|truncatewords:155 }}
+    {% else %}
+        welcome to irfan cosmetic world you can buy different items...
+    {% endif %}
+{% endblock %}
+
+{% block title %}
+    {% if title %}
+        {{ title.name }}--  irfan s cosmetic
+    {% else %}
+        See our new collection -irfan s cosmetic
+    {% endif %}
+
+{% endblock %}
+
+{% block content %}
+{% if category %}
+
+    <div>
+        <div class="row my_row_class">
+            <div class="mx-auto">
+            <p><a href="{ url 'happ:allProdCat' %}"></a></p>
+        </div>
+            </div>
+    </div>
+    {% endif %}
+<div class="mx-auto">
+    {% if category %}
+    <center>
+     <img class="my-image" src="{{category.image.url}}" style="width:1000px;height:500px" alt="{{category.name}}">
+        </center>
+</div>
+    <br>
+<div>
+    <h1 class="text-center my_title">{{category.name}}</h1>
+    <p class="text-justify">{{category.description}}</p>
+</div>
+    {% else %}
+<div>
+<center><img class="my-image my_image_padding" src="{% static 'img/bannerr.png' %}" style="width:1100px;height:300px"> </center>
+</div>
+<br>
+<div>
+    <h1 class="text-center my_title"> OUR PRODUCT COLLECTIONS</h1>
+    <p class=" text-justify">The word perfume is derived from the Latin perfumare, meaning "to smoke through".[3] Perfumery, as the art of making perfumes, began in ancient Mesopotamia, Egypt, the Indus Valley civilization and possibly Ancient China.[4] It was further refined by the Romans and the Muslims.[citation needed]
+
+One of the world's first-recorded chemists is considered to be a woman named Tapputi, a perfume maker mentioned in a cuneiform tablet from the 2nd millennium BC in Mesopotamia.[5] She distilled flowers, oil, and calamus with other aromatics, then filtered and put them back in the still several times.[6]</p>
+
+</div>
+{% endif %}
+<div class="container">
+    <div class="row mx_auto">
+        {% for product in products.object_list %}
+        <div class="my_bottom_margin col-9 col-sm-4   col-md-4  xol-lg-4">
+            <div class="card-text-center" style="min-width:18rem;">
+
+                <a href="{{product.get_url}}"> <img class="card-img-top my_image" src="{{product.image.url}}" style="width:400px;height:300px" alt="{{product.name}}"></a>
+
+            <div class="card-body">
+                <h4>{{product.name}}</h4>
+                <p>{{product.price}}</p>
+                <br>
+            </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+    <div class="mx-auto">
+        {% if products.paginator.num_pages > 1 %}
+
+        <hr>
+        <div class="text-center">
+            {% for pg in products.paginator.page_range %}
+                <a href="?page={{pg}}" class="btn btn-success btn-sm {% if products.number == pg %} active {% endif %}">{{pg}}</a>
+            {% endfor %}
+
+        </div>
+        {% endif %}
+    </div>
+    <br>
+</div>
+{% endblock %}
